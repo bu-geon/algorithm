@@ -1,6 +1,4 @@
 function solution(priorities, location) {
-  let print = []
-
   let paper = Array.from({ length: priorities.length }, (v, i) => i)
   let idx = 1
 
