@@ -11,13 +11,11 @@ function solution(n, roads, sources, destination) {
 
   console.log(graph)
 
-  const check = new Array(n+1).fill(false)
-  const distances = new Array(n+1).fill(Number.MAX_SAFE_INTEGER)
+  const distances = new Array(n+1).fill(-1)
   distances[destination] = 0
-  const minDistances = bfs(destination, graph, check, [...distances])
+  const minDistances = bfs(destination, graph, [...distances])
 
   answer = sources.map(s => {
-    if(minDistances[s] === Number.MAX_SAFE_INTEGER)return -1
     return minDistances[s]
   })  
 
@@ -25,23 +23,18 @@ function solution(n, roads, sources, destination) {
 }
 
 
-const bfs = (start, graph, check, distances) => {
+const bfs = (start, graph, distances) => {
   const queue = []
-  check[start] = true
-  graph[start].forEach(location => {
-    queue.push([location, 1])
-    check[location] = true
-  })
+  queue.push([start, 0])
 
   while(queue.length > 0){
     const [cLocation, cDistance] = queue.shift()
-    console.log(cLocation)
-    if(distances[cLocation] > cDistance)distances[cLocation] = cDistance 
 
+    
     graph[cLocation].forEach(next => {
-      if(check[next])return
+      if(distances[next] !== -1 )return
       queue.push([next, cDistance + 1])
-      check[next] = true
+      distances[next] = cDistance +1
     })
 
   }
