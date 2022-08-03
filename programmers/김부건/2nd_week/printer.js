@@ -5,15 +5,19 @@ function solution(priorities, location) {
 	let count = 1;
 	let pIndex = 0;
 	while (true) {
-		if (isHighestPriority(docs[0].priority, priorities[pIndex])) {
-			if (isTarget(docs[0].docNum, location)) {
+		const { currentDoc, currentPrior } = docs.shift();
+		if (isHighestPriority(currentPrior, priorities[pIndex])) {
+			if (isTarget(currentDoc.docNum, location)) {
+				// if (isHighestPriority(docs[0].priority, priorities[pIndex])) {
+				// 	if (isTarget(docs[0].docNum, location)) {
 				return count;
 			}
-			docs.shift();
+			// docs.shift();
 			count++;
 			pIndex++;
 		} else {
-			docs.push(docs.shift());
+			// docs.push(docs.shift());
+			docs.push({ currentDoc, currentPrior });
 		}
 	}
 }
