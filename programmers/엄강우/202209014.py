@@ -1,18 +1,10 @@
 class Solution:
     def numberOfBeams(self, bank: List[str]) -> int:
-        rows = []
-        for row in bank:
-            result = 0
-            for device in row:
-                if device == '1':
-                    result += 1
-            if result:
-                rows.append(result)
-                
-        if len(rows) < 2: return 0
-        
-        answer = 0
-        for idx in range(len(rows)-1):
-            answer += rows[idx] * rows[idx+1]
-        
-        return answer
+        ans, prev = 0, 0
+        for idx in range(len(bank)):
+            result = bank[idx].count("1")
+            if result == 0: continue
+            ans += result * prev
+            prev = result
+            
+        return ans
