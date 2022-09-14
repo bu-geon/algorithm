@@ -1,0 +1,20 @@
+def okay(total_time, times, n):
+    result = 0
+    for time in times:
+        result += total_time // time
+        if result >= n:
+            return True
+    return False
+
+def solution(n, times):
+    start_time = 0
+    end_time = n * 1000000000
+    while end_time - start_time > 1:
+        mid_time = (end_time+start_time) // 2
+        isOkay = okay(mid_time, times, n)
+        if isOkay:
+            end_time = mid_time
+        else:
+            start_time = mid_time
+    
+    return end_time
