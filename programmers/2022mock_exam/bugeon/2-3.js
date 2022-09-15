@@ -128,7 +128,6 @@ function solution(n, roads, sources, destination) {
 	const que = new Queue();
 	que.enqueue([destination, 0]);
 
-	console.log(starts);
 	while (que.length > 0) {
 		const [cur, dis] = que.dequeue();
 		console.log(cur, dis);
@@ -141,12 +140,42 @@ function solution(n, roads, sources, destination) {
 			if (!visited[next]) {
 				visited[next] = true;
 				que.enqueue([next, dis + 1]);
+				for (let i = 0; i < sources.length; i++) {
+					answer[i] = getMinimumTime(sources[i], destination, n, roadsInfo);
+				}
+
+				return answer;
+			}
+		}
+	}
+}
+
+const getMinimumTime = (current, destination, locations, roadsInfo) => {
+	const que = [[current, 0]];
+	const visited = new Array(locations + 1).fill(false);
+	visited[current] = true;
+
+	while (que.length > 0) {
+		const [currentLocation, distance] = que.shift();
+
+		if (currentLocation === destination) {
+			return distance;
+		}
+
+		if (!roadsInfo[currentLocation]) {
+			continue;
+		}
+
+		for (const next of roadsInfo[currentLocation]) {
+			if (!visited[next]) {
+				visited[next] = true;
+				que.push([next, distance + 1]);
 			}
 		}
 	}
 
 	return answer;
-}
+};
 
 console.log(
 	solution(
