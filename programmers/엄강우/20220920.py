@@ -1,4 +1,4 @@
-import collections
+## 슬라이딩 윈도우
 
 class Solution:
     def maxFrequency(self, nums: List[int], k: int) -> int:
@@ -12,4 +12,25 @@ class Solution:
                 prefix_sum -= nums[s1]
                 s1 += 1
             ans = max(ans, s2 - s1 + 1)
+        return ans
+
+## 바이너리 서치
+
+class Solution:
+    def maxFrequency(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        prefix_sum = [0]
+        for num in nums:
+            prefix_sum.append(prefix_sum[-1] + num)
+        
+        ans = 0
+        for i in range(1, len(prefix_sum)):
+            s, e = 1, i 
+            while s < e:
+                mid = (s + e) // 2
+                if nums[i-1] * (i - mid + 1) - (prefix_sum[i] - prefix_sum[mid-1]) <= k:
+                    e = mid
+                else:
+                    s = mid + 1
+            ans = max(ans, i - s + 1)
         return ans
