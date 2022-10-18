@@ -39,3 +39,19 @@ class Solution:
             cnt -= 1
         
         return answer
+
+class Solution:
+  def minimizeXor(self, num1: int, num2: int) -> int:
+      num2_one = num2.bit_count()
+      num1_one = num1.bit_count()
+      
+      ans = num1
+      for i in range(30):
+          if num2_one > num1_one and not (num1 & 1 << i):
+              ans ^= 1 << i
+              num2_one -= 1
+          if num2_one < num1_one and (num1 & 1 << i):
+              ans ^= 1 << i
+              num2_one += 1
+      
+      return ans
