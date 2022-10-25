@@ -1,0 +1,24 @@
+class Solution:
+    def rowBisect(self, target, matrix, start, end):
+        while start < end:
+            mid = (start+end)//2+1
+            if target < matrix[mid][0]:
+                end = mid - 1
+            else:
+                start = mid
+        return start
+    
+    def colBisect(self, target, matrix, start, end, row):
+        while start < end:
+            mid = (start+end)//2
+            if target < matrix[row][mid]:
+                end = mid
+            elif target == matrix[row][mid]:
+                return True
+            else:
+                start = mid + 1
+        return matrix[row][start] == target    
+    
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        row = self.rowBisect(target, matrix, 0, len(matrix)-1)
+        return self.colBisect(target, matrix, 0, len(matrix[0])-1, row)
