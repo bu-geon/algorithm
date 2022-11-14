@@ -1,0 +1,27 @@
+import collections
+
+class Solution:
+    def removeStones(self, stones: List[List[int]]) -> int:
+        N = len(stones)
+        connectedPoints = collections.defaultdict(list)
+
+        for R, C in stones:
+            for r, c in stones:
+                if R == r and C == c: continue
+                if R == r or C == c:
+                    connectedPoints[(R, C)].append((r, c))
+
+        remainedPoints = {(row, col) for row, col in stones}
+        def removePoint(row, col):
+            remainedPoints.discard((row, col))
+            for r, c in connectedPoints[(row, col)]:
+                if (r, c) in remainedPoints:
+                    removePoint(r, c)
+
+        ans = 0
+        for row, col in stones:
+            if (row, col) in remainedPoints:
+                removePoint(row, col)
+                ans += 1
+
+        return len(stones) - ans
