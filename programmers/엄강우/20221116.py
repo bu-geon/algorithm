@@ -27,3 +27,32 @@ class Solution:
                 ans += 1
         
         return ans
+
+class Solution:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
+        if not root: return 0
+        def dfs(node, h, treeH, isEnd):
+            deleted = 0
+            if isEnd:
+                return 0, treeH, isEnd 
+            if h + 1 == treeH:
+                if node.right: return 0, treeH, True
+                if node.left: return 1, treeH, True
+                return 2, treeH, False
+            if node.right:
+                deletedSubtree, treeH, isEnd = dfs(node.right, h+1, treeH, isEnd)
+                deleted += deletedSubtree
+            else:
+                if node.left:
+                    return 1, h+1, True
+                else:
+                    return 2, h+1, False
+
+            if node.left:
+                deletedSubtree, treeH, isEnd = dfs(node.left, h+1, treeH, isEnd)
+                deleted += deletedSubtree
+
+            return deleted , treeH, isEnd 
+            
+        deleted, h, _ = dfs(root, 0, 20, False)
+        return 2 ** (h+1) - 1 - deleted
