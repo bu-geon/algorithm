@@ -1,0 +1,12 @@
+class Solution:
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        for row in range(1, len(triangle)):
+            for col in range(len(triangle[row])):
+                value = float('inf')
+                if col > 0:
+                    value = min(value,triangle[row-1][col-1])
+                if col < len(triangle[row])-1:
+                    value = min(value, triangle[row-1][col])
+                triangle[row][col] += value
+
+        return min(triangle[len(triangle)-1])
